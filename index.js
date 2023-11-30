@@ -10,7 +10,7 @@ app.use(express.urlencoded({extended:true}));
 //Rutas 
 //Endpoint de GetUsers
 app.get("/", (req, res) => {
-	res.json("The index is working fine");
+	res.json("Hola Yadi");
 });
 
 //Nos conectamos al puerto 8000
