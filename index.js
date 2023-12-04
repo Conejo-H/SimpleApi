@@ -25,8 +25,8 @@ const getUsersRoute = require('./routes/getUsers');
 app.use("/api/v1/getEmployees", getUsersRoute);
 
 // //Endpoint de GetTransactions
-// const getTransactionsRoute = require('./routes/getTransactions');
-// app.use("/api/v1/getTransactions", getTransactionsRoute);
+const getTransactionsRoute = require('./routes/getTransactions');
+app.use("/api/v1/getTransactions", getTransactionsRoute);
 
 // //Endpoint de PostCancelled
 // const putCancelledRoute = require('./routes/putCancelled');
