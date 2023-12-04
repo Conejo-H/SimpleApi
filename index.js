@@ -28,13 +28,13 @@ app.use("/api/v1/getEmployees", getUsersRoute);
 const getTransactionsRoute = require('./routes/getTransactions');
 app.use("/api/v1/getTransactions", getTransactionsRoute);
 
-// //Endpoint de PostCancelled
+// //Endpoint de PutCancelled
 // const putCancelledRoute = require('./routes/putCancelled');
 // app.use("/api/v1/payments", putCancelledRoute);
 
-// //Endpoint de PostCompleted
-// const putCompletedRoute = require('./routes/putCompleted');
-// app.use("/api/v1/payments", putCompletedRoute);
+// //Endpoint de PutCompleted
+const putCompletedRoute = require('./routes/putCompleted');
+app.use("/api/v1/payments", putCompletedRoute);
 
 //Nos conectamos al puerto 8000
 app.listen(port, ()=> console.log(`Escuchando al puerto ${port}`));
