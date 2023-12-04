@@ -15,9 +15,9 @@ app.get("/", (req, res) => {
 	res.json("Hola Yadi");
 });
 
-app.get("/usuarios", (req, res) => {
-	res.send(db.getUsers());
-});
+// app.get("/usuarios", (req, res) => {
+// 	res.send(db.getUsers());
+// });
 
 //Rutas 
 //Endpoint de GetUsers
