@@ -106,7 +106,7 @@ function putCompleted(data){
 
 function folioExiste(data){
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT EXISTS ( SELECT folio FROM detVentas WHERE folio = '${data}') AS folioExiste ;`, (error, result) =>{
+			connection.query(`SELECT EXISTS ( SELECT folio FROM detventas WHERE folio = '${data}') AS folioExiste ;`, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 		})
