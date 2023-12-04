@@ -5,7 +5,7 @@ function putCancelled(folio){
 		db.folioExiste(folio.folio).then( item => {
             //Si el folio existe
 			if (item[0].folioExiste === 1){
-				db.putCompleted(datos);
+				db.putCancelled(datos);
 			}
 			else{
 			}
