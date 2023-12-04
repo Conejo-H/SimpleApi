@@ -29,8 +29,8 @@ const getTransactionsRoute = require('./routes/getTransactions');
 app.use("/api/v1/getTransactions", getTransactionsRoute);
 
 // //Endpoint de PutCancelled
-// const putCancelledRoute = require('./routes/putCancelled');
-// app.use("/api/v1/payments", putCancelledRoute);
+const putCancelledRoute = require('./routes/putCancelled');
+app.use("/api/v1/payments", putCancelledRoute);
 
 // //Endpoint de PutCompleted
 const putCompletedRoute = require('./routes/putCompleted');
