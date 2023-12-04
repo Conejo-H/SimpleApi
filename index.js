@@ -21,8 +21,8 @@ app.get("/usuarios", (req, res) => {
 
 //Rutas 
 //Endpoint de GetUsers
-// const getUsersRoute = require('./routes/getUsers');
-// app.use("/api/v1/getEmployees", getUsersRoute);
+const getUsersRoute = require('./routes/getUsers');
+app.use("/api/v1/getEmployees", getUsersRoute);
 
 // //Endpoint de GetTransactions
 // const getTransactionsRoute = require('./routes/getTransactions');
