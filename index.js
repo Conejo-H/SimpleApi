@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/usuarios", (req, res) => {
-	res.json(db.getUsers);
+	res.send(db.getUsers());
 });
 
 //Rutas 
