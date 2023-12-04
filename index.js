@@ -1,7 +1,9 @@
+const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
+const db = require('./mysql');
 const app = express();
-const port = 3000;
+const port = config.app.port;
 
 app.use(morgan('start'));
 app.use(express.json());
@@ -12,6 +14,22 @@ app.use(express.urlencoded({extended:true}));
 app.get("/", (req, res) => {
 	res.json("Hola Yadi");
 });
+
+const router = express.Router();
+
+app.get('/usuarios',getUsers);
+async function getUsers(req, res){
+	try{
+		const items = await db.getUsers();
+		res.json(items);
+	}
+	catch(err){
+		throw err;	
+	}	
+};
+
+
+module.exports = router;
 
 //Nos conectamos al puerto 8000
 app.listen(port, ()=> console.log(`Escuchando al puerto ${port}`));
