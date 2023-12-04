@@ -10,9 +10,7 @@ async function putCancelled(req, res){
 	try{
 
 		const item = await putCancelledController.putCancelled(req.params);
-		console.log(req.params);
-		req.body = item;
-		//respuesta.success(req, res, 'Cancelado', 200);
+		respuesta.success(req, res, 'Cancelado', 200);
 	}
 	catch(err){
 		respuesta.error(res,res, err, 500);
