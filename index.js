@@ -1,7 +1,6 @@
 const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
-// const db = require('./database/mysql');
 const app = express();
 const port = config.app.port;
 
@@ -20,21 +19,17 @@ app.get("/", (req, res) => {
 const getUsersRoute = require('./routes/getUsers');
 app.use("/api/v1/getEmployees", getUsersRoute);
 
-const router = express.Router();
+//Endpoint de GetTransactions
+const getTransactionsRoute = require('./routes/getTransactions');
+app.use("/api/v1/getTransactions", getTransactionsRoute);
 
-app.get('/usuarios',getUsers);
-async function getUsers(req, res){
-	try{
-		const items = await db.getUsers();
-		res.json(items);
-	}
-	catch(err){
-		throw err;	
-	}	
-};
+//Endpoint de PostCancelled
+const putCancelledRoute = require('./routes/putCancelled');
+app.use("/api/v1/payments", putCancelledRoute);
 
-
-module.exports = router;
+//Endpoint de PostCompleted
+const putCompletedRoute = require('./routes/putCompleted');
+app.use("/api/v1/payments", putCompletedRoute);
 
 //Nos conectamos al puerto 8000
 app.listen(port, ()=> console.log(`Escuchando al puerto ${port}`));
