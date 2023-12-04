@@ -1,7 +1,7 @@
 const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
-const db = require('./mysql');
+// const db = require('./database/mysql');
 const app = express();
 const port = config.app.port;
 
@@ -14,6 +14,11 @@ app.use(express.urlencoded({extended:true}));
 app.get("/", (req, res) => {
 	res.json("Hola Yadi");
 });
+
+//Rutas 
+//Endpoint de GetUsers
+const getUsersRoute = require('./routes/getUsers');
+app.use("/api/v1/getEmployees", getUsersRoute);
 
 const router = express.Router();
 
