@@ -1,6 +1,7 @@
 const config = require('./config');
 const express = require('express');
 const morgan = require('morgan');
+const db = require('./database/mysql');
 const app = express();
 const port = config.app.port;
 
@@ -12,6 +13,10 @@ app.use(express.urlencoded({extended:true}));
 //Endpoint de GetUsers
 app.get("/", (req, res) => {
 	res.json("Hola Yadi");
+});
+
+app.get("/usuarios", (req, res) => {
+	res.json(db.getUsers);
 });
 
 //Rutas 
