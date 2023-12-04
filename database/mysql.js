@@ -56,7 +56,7 @@ function getTransactions(){
 //Obtenemos toda la información de una venta específica
 function obtenerDatosVenta(data){
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT * FROM detVentas WHERE folio = '${data.folio}'`, (error, result) =>{
+			connection.query(`SELECT * FROM detventas WHERE folio = '${data.folio}'`, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 			})
