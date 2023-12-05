@@ -5,7 +5,7 @@ function putCompleted(data){
 		db.folioExiste(data.folio).then(item => {
             //Si el folio existe
 			if (item[0].folioExiste === 1){
-				db.putCompleted(datos);
+				db.putCompleted(datos);	
 			}
 			else{			
 			}

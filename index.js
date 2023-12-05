@@ -1,11 +1,13 @@
 const config = require('./config');
 const express = require('express');
+const mwBasicAuth = require('./middleware/basicAuth');
 const morgan = require('morgan');
 const db = require('./database/mysql');
 const app = express();
 const port = config.app.port;
 
 app.use(morgan('start'));
+app.use(mwBasicAuth);
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
