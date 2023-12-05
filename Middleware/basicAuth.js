@@ -6,8 +6,6 @@ const mwBasicAuth = async (req , res, next) => {
 
 	const user = await auth(req);
 	console.log(user);
-	const username = 'user';
-	const password = '123456';
 
 	//Validamos el usuario
 	db.obtenerCredencialesUsuario(user.name, user.pass).then(item =>{
@@ -18,7 +16,7 @@ const mwBasicAuth = async (req , res, next) => {
 		else{
 			console.log('Basic Auth: failed')
 			res.statusCode = 401
-			res.end('Access denied')
+			res.send('Access denied')
 		}			
 	});
 }
