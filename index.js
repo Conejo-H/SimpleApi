@@ -38,5 +38,11 @@ app.use("/api/v1/payments", putCancelledRoute);
 const putCompletedRoute = require('./routes/putCompleted');
 app.use("/api/v1/payments", putCompletedRoute);
 
+//Mensaje en caso de que se ingrese un endpoint que no existe
+app.use((req, res, next) =>{
+	res.status(404).json({
+		message: 'Endpoint no encontrado'
+	})
+});
 //Nos conectamos al puerto 8000
 app.listen(port, ()=> console.log(`Escuchando al puerto ${port}`));
