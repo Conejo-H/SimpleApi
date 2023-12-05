@@ -56,7 +56,7 @@ function getTransactions(){
 //Obtenemos toda la información de una venta específica
 function obtenerDatosVenta(data){
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT * FROM detventas WHERE folio = '${data.folio}'`, (error, result) =>{
+			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, cambio, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, dolares, estatus FROM detventas WHERE folio = '${data.folio}'`, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 			})
@@ -78,12 +78,11 @@ function putCancelled(data){
 
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
 function pasarVentaACancelacion(data){
-	let fecha = data[0].fecha.toISOString();
-	fecha = fecha.substring(0, fecha.indexOf("T"));
 	const date = new Date();
 	let hour = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+	console.log(hour);
 	return new Promise((resolve,reject) => {
-		connection.query(`INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}');`,
+		connection.query(`INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}');`,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
