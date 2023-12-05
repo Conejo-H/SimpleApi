@@ -5,7 +5,6 @@ const db = require('../database/mysql');
 const mwBasicAuth = async (req , res, next) => {
 
 	const user = await auth(req);
-	console.log(user);
 
 	//Validamos el usuario
 	if (typeof user.name !== 'undefined' && typeof user.pass !== 'undefined'){
