@@ -106,16 +106,6 @@ function putCompleted(venta){
 	});
 }
 
-function folioExiste(folio){
-	console.log(folio);
-	return new Promise((resolve,reject) => {
-			connection.query( `SELECT EXISTS ( SELECT folio FROM detventas WHERE folio = '${folio}') AS folioExiste ; `, (error, result) =>{
-			if(error) return reject(error);
-			resolve(result);
-		})
-	});
-}
-
 //Comprobamos si el usuario y contraseña la autenticación existen en la base de datos
 function obtenerCredencialesUsuario(username, password){
 	return new Promise((resolve,reject) => {
@@ -133,6 +123,5 @@ module.exports = {
 	putCancelled,
 	pasarVentaACancelacion,
 	putCompleted,
-	obtenerCredencialesUsuario,
-	folioExiste
+	obtenerCredencialesUsuario
 }
