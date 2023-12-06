@@ -2,7 +2,6 @@
 Esta api está desarrollada con Express y conecta la base de datos del POS de Easysoft con los cajones inteligentes para que los clientes puedan recibir y enviar información sobre las ventas y los empleados.
 ## Instalación
 Clona este proyecto, modifica el nombre del archivo `.env.example` a `.env` y cambia el valor de las variables de entorno para conectarte a tu base de datos.
-Probando si el código funciona.
 
 Luego, ejecuta el comando `npm i` en tu consola para instalar las dependencias del proyecto.
 ## Uso
