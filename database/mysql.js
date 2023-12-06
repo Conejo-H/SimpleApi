@@ -36,7 +36,7 @@ connectSql();
 //Consultamos todos los usuarios de la base de datos
 function getUsers(){
 	return new Promise((resolve,reject) => {
-		connection.query(`SELECT user_id, CONCAT(firstname, ' ' , lastname) AS fullname FROM users;`, (error, result) =>{
+		connection.query( `SELECT user_id, CONCAT(firstname, ' ' , lastname) AS fullname FROM users; `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 		})
@@ -46,7 +46,7 @@ function getUsers(){
 //Consultamos todas las transacciones de la base de datos
 function getTransactions(){
 	return new Promise((resolve,reject) => {
-		connection.query(`SELECT folio as idTransaccion, total as precio, SUBSTRING(fecha, 1, 10) as fecha, tipopago, estacion  AS mostrador, sucursal as tienda, cajero as vendedor, estatus FROM detventas;`, (error, result) =>{
+		connection.query( `SELECT folio as idTransaccion, total as precio, SUBSTRING(fecha, 1, 10) as fecha, tipopago, estacion  AS mostrador, sucursal as tienda, cajero as vendedor, estatus FROM detventas; `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 		})
@@ -54,9 +54,9 @@ function getTransactions(){
 }
 
 //Obtenemos toda la información de una venta específica
-function obtenerDatosVenta(data){
+function obtenerDatosVenta(folio){
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, cambio, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, dolares, estatus FROM detventas WHERE folio = '${data.folio}'`, (error, result) =>{
+			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, cambio, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, dolares, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 			})
@@ -64,13 +64,13 @@ function obtenerDatosVenta(data){
 }
 
 //Si el estatus de una venta es diferente a cancelado, realizamos la cancelación
-function putCancelled(data){
+function putCancelled(venta){
 	return new Promise((resolve,reject) => {
-			if (data[0].estatus !== 'cancelado'){
-				connection.query(`UPDATE detventas SET estatus = 'cancelado'  WHERE folio = '${data[0].folio}' ;`, (error, result) =>{
+			if (venta[0].estatus !== 'cancelado'){
+				connection.query( `UPDATE detventas SET estatus = 'cancelado'  WHERE folio = '${venta[0].folio}' ; `, (error, result) =>{
 				if(error) return reject(error);
 				resolve(result);
-				pasarVentaACancelacion(data);
+				pasarVentaACancelacion(venta);
 				})
 			}
 	});
@@ -82,7 +82,7 @@ function pasarVentaACancelacion(data){
 	let hour = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 	console.log(hour);
 	return new Promise((resolve,reject) => {
-		connection.query(`INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}');`,
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
@@ -91,21 +91,27 @@ function pasarVentaACancelacion(data){
 }
 
 //Recibimos la información de una venta y actualizamos su estado a COMPLETADO
-function putCompleted(data){
+function putCompleted(venta){
+	console.log(venta[0].folio);
 	return new Promise((resolve,reject) => {
-		console.log(data[0].folio);
-		if(data[0].estatus === '' ){
-			connection.query(`UPDATE detventas SET estatus = 'completado'  WHERE folio = '${data[0].folio}' ;`, (error, result) =>{
+		if(venta[0].estatus === ''  ){
+			console.log('entramos al update')
+			const a = connection.query( `UPDATE detventas SET estatus = 'completado'  WHERE folio = '${venta[0].folio}' ;`, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
+			console.log(a);
 			})
+		}
+		else{
+			console.log('El estatus no se puede marcar como completado');
 		}
 	});
 }
 
-function folioExiste(data){
+function folioExiste(folio){
+	console.log(folio);
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT EXISTS ( SELECT folio FROM detventas WHERE folio = '${data}') AS folioExiste ;`, (error, result) =>{
+			connection.query( `SELECT EXISTS ( SELECT folio FROM detventas WHERE folio = '${folio}') AS folioExiste ; `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 		})
@@ -115,7 +121,7 @@ function folioExiste(data){
 //Comprobamos si el usuario y contraseña la autenticación existen en la base de datos
 function obtenerCredencialesUsuario(username, password){
 	return new Promise((resolve,reject) => {
-		connection.query(`SELECT EXISTS(SELECT user_email, user_password_hash FROM users WHERE user_email = '${username}' AND user_password_hash =  '${password}') AS encontrado;`, (error, result) =>{
+		connection.query( `SELECT EXISTS(SELECT user_email, user_password_hash FROM users WHERE user_email = '${username}' AND user_password_hash =  '${password}') AS encontrado; `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 		})

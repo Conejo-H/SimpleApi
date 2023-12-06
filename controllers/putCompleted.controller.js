@@ -1,17 +1,22 @@
 const db = require('../database/mysql');
+const respuesta = require ('../red/respuestas');
 
-function putCompleted(data){
-	return db.obtenerDatosVenta(data).then((datos)=>{
-		db.folioExiste(data.folio).then(item => {
-            //Si el folio existe
-			if (item[0].folioExiste === 1){
-				db.putCompleted(datos);	
+function putCompleted(req, res){
+	try{
+		return db.obtenerDatosVenta(req.params.folio).then((items)=>{
+			try{
+				db.putCompleted(items);
+				res.send({respuesta: 'Estatus actualizado a completado'});
 			}
-			else{			
+			catch{
+				res.send({respuesta: 'Folio no encontrado'});	
 			}
-		});
-		// 
-	})
+	
+		})
+	}
+	catch(err){
+		respuesta.error(res,res, err, 500);
+	}
 }
 module.exports = {
 	putCompleted

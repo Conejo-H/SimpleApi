@@ -8,10 +8,10 @@ router.get('/',getTransactions);
 async function getTransactions(req, res){
 	try{
 		const items = await getTransactionsController.getTransactions();
-		respuesta.success(req, res, items, 200);	
+		res.send({respuesta: items});	
 	}
 	catch(err){
-		respuesta.error(res, res, err, 500);	
+		res.status(500).send('Algo salió mal');	
 	}	
 };
 

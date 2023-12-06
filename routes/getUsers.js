@@ -8,12 +8,11 @@ router.get('/',getUsers);
 async function getUsers(req, res){
 	try{
 		const items = await getUsersController.getUsers();
-		respuesta.success(req, res, items, 200);	
+		res.send({respuesta: items});	
 	}
 	catch(err){
-		respuesta.error(res,res, err, 500);	
+		res.status(500).send('Algo salió mal');
 	}	
 };
-
 
 module.exports = router;

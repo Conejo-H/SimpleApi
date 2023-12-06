@@ -1,16 +1,23 @@
 const db = require('../database/mysql');
+const respuesta = require ('../red/respuestas');
 
-function putCancelled(folio){
-	return db.obtenerDatosVenta(folio).then((datos)=>{
-		db.folioExiste(folio.folio).then( item => {
-            //Si el folio existe
-			if (item[0].folioExiste === 1){
-				db.putCancelled(datos);
+function putCancelled(req, res){
+	try{
+		return db.obtenerDatosVenta(req.params.folio).then((venta)=>{
+			
+			try{
+				console.log(venta[0].folio);
+				db.putCancelled(venta);
+				res.send({respuesta: 'Estatus actualizado a cancelado'});
 			}
-			else{
+			catch{
+				res.send({respuesta: 'Folio no encontrado'});
 			}
-		});
-	})
+		})
+	}
+	catch(err){
+		res.status(200).send({mensaje: 'Ingrese un folio válido'});	
+	}
 }
 
 module.exports = {
