@@ -66,13 +66,11 @@ function obtenerDatosVenta(folio){
 //Si el estatus de una venta es diferente a cancelado, realizamos la cancelación
 function putCancelled(venta){
 	return new Promise((resolve,reject) => {
-			if (venta[0].estatus !== 'cancelado'){
-				connection.query( `UPDATE detventas SET estatus = 'cancelado'  WHERE folio = '${venta[0].folio}' ; `, (error, result) =>{
-				if(error) return reject(error);
-				resolve(result);
-				pasarVentaACancelacion(venta);
-				})
-			}
+		connection.query( `UPDATE detventas SET estatus = 'cancelado'  WHERE folio = '${venta[0].folio}' ; `, (error, result) =>{
+		if(error) return reject(error);
+		resolve(result);
+		pasarVentaACancelacion(venta);
+		})
 	});
 }
 
@@ -94,17 +92,17 @@ function pasarVentaACancelacion(data){
 function putCompleted(venta){
 	console.log(venta[0].folio);
 	return new Promise((resolve,reject) => {
-		if(venta[0].estatus === ''  ){
+		// if(venta[0].estatus === ''  ){
 			console.log('entramos al update')
 			const a = connection.query( `UPDATE detventas SET estatus = 'completado'  WHERE folio = '${venta[0].folio}' ;`, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 			console.log(a);
 			})
-		}
-		else{
-			console.log('El estatus no se puede marcar como completado');
-		}
+		// }
+		// else{
+		// 	console.log('El estatus no se puede marcar como completado');
+		// }
 	});
 }
 

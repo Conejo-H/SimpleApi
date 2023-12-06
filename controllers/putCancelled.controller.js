@@ -3,12 +3,16 @@ const respuesta = require ('../red/respuestas');
 
 function putCancelled(req, res){
 	try{
-		return db.obtenerDatosVenta(req.params.folio).then((venta)=>{
-			
+		return db.obtenerDatosVenta(req.params.folio).then((venta)=>{	
 			try{
-				console.log(venta[0].folio);
-				db.putCancelled(venta);
-				res.send({respuesta: 'Estatus actualizado a cancelado'});
+				if (venta[0].estatus !== 'cancelado'){
+					db.putCancelled(venta);
+					res.send({respuesta: 'Estatus actualizado a cancelado'});
+				}
+				else{
+					res.send({respuesta: 'No se puede marcar como cancelada una venta cancelada'});
+				}
+				
 			}
 			catch{
 				res.send({respuesta: 'Folio no encontrado'});
