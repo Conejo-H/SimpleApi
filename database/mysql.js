@@ -79,7 +79,7 @@ function getTransactions(){
 //Obtenemos toda la información de una venta específica
 function obtenerDatosVenta(folio){
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, dolares, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
+			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, dolares, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 			})
@@ -106,7 +106,7 @@ function pasarVentaACancelacion(data){
 	var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	// // console.log(timezone);
 	// //Obtenemos la diferencia de hora entre el servidor y la computadora en minutos
-	// var diffTZ = currentDateObj.getTimezoneOffset();
+	var diffTZ = currentDateObj.getTimezoneOffset();
 	// //Obtenemos la diferencia de hora entre el servidor y la computadora en horas
 	// var difHoras = parseInt(diffTZ)/60;
 	// // console.log(difHoras);
@@ -127,7 +127,7 @@ function pasarVentaACancelacion(data){
 	let hour = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 	console.log(hour);
 	return new Promise((resolve,reject) => {
-		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '${timezone}', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '${timezone}', '${diffTZ}', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
