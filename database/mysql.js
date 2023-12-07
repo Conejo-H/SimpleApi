@@ -100,26 +100,16 @@ function putCancelled(venta){
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
 function pasarVentaACancelacion(data){
 
-	// var currentDateObj = new Date();
-	// let hour = currentDateObj.getHours() + ":" + currentDateObj.getMinutes() + ":" + currentDateObj.getSeconds();
+	var fecha = new Date();
+	var fechaCadena = fecha.toString;
+	var horaCadena = fechaCadena.substring(17,24);
+	console.log(horaCadena);
+
+	// let hour = fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds();
 	// console.log(hour);
 
-	// Obtén la hora actual solo si no está almacenada en el almacenamiento local
-	let storedHour = localStorage.getItem('storedHour');
-	let currentDateObj;
-
-	if (storedHour) {
-	currentDateObj = new Date(storedHour);
-	} else {
-	currentDateObj = new Date();
-	localStorage.setItem('storedHour', currentDateObj);
-	}
-
-	let hour = currentDateObj.getHours() + ":" + currentDateObj.getMinutes() + ":" + currentDateObj.getSeconds();
-	console.log(hour);
-
 	return new Promise((resolve,reject) => {
-		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '${timezone}', '', '', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, hora_greenwich, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '' , '${horaCadena}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
