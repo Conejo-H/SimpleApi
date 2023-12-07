@@ -100,34 +100,34 @@ function putCancelled(venta){
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
 function pasarVentaACancelacion(data){
 
-	var currentDateObj = new Date();
+	// var currentDateObj = new Date();
 
-	//Obtenemos la zona horaria del usuario
+	// //Obtenemos la zona horaria del usuario
 	var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-	// console.log(timezone);
-	//Obtenemos la diferencia de hora entre el servidor y la computadora en minutos
-	var diffTZ = currentDateObj.getTimezoneOffset();
-	//Obtenemos la diferencia de hora entre el servidor y la computadora en horas
-	var difHoras = parseInt(diffTZ)/60;
-	// console.log(difHoras);
-	//Obtenemos la hora del servidor
-	var numberOfMlSeconds = currentDateObj.getTime();
-	//obtenemos la cantidad de milisegundos en una hora
-	var addMlSeconds = 60 * 60000;
-	//obtenemos la diferencia de hora entre servidor y usuario en milisegundos
-	var totalDifMilisegundos = addMlSeconds * difHoras;
-	//Restamos los milisegundos a la hora del servidor para obtener la hora del usuario
-	let userTime = new Date(numberOfMlSeconds - totalDifMilisegundos);
-	// console.log(currentDateObj);
-	console.log(userTime);
-	// console.log(currentDateObj.toString());
-	console.log(userTime.getTime());
+	// // console.log(timezone);
+	// //Obtenemos la diferencia de hora entre el servidor y la computadora en minutos
+	// var diffTZ = currentDateObj.getTimezoneOffset();
+	// //Obtenemos la diferencia de hora entre el servidor y la computadora en horas
+	// var difHoras = parseInt(diffTZ)/60;
+	// // console.log(difHoras);
+	// //Obtenemos la hora del servidor
+	// var numberOfMlSeconds = currentDateObj.getTime();
+	// //obtenemos la cantidad de milisegundos en una hora
+	// var addMlSeconds = 60 * 60000;
+	// //obtenemos la diferencia de hora entre servidor y usuario en milisegundos
+	// var totalDifMilisegundos = addMlSeconds * difHoras;
+	// //Restamos los milisegundos a la hora del servidor para obtener la hora del usuario
+	// let userTime = new Date(numberOfMlSeconds - totalDifMilisegundos);
+	// // console.log(currentDateObj);
+	// console.log(userTime);
+	// // console.log(currentDateObj.toString());
+	// console.log(userTime.getTime());
 
-	// const date = new Date();
-	let hour = userTime.getHours() + ":" + userTime.getMinutes() + ":" + userTime.getSeconds();
+	const date = new Date();
+	let hour = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 	console.log(hour);
 	return new Promise((resolve,reject) => {
-		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '${timezone}', '', '${data[0].fecha}', '${hour}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
