@@ -103,9 +103,9 @@ function pasarVentaACancelacion(data){
 	console.log(zonaHoraria);
 
 	var today = new Date();
-	var now = today.toLocaleString();
-	console.log(now);
-	var hora = now.slice(11,19);
+	var ahora = today.toLocaleString();
+	console.log(ahora);
+	var hora = ahora.slice(11,19);
 	console.log(hora);
 	// var fecha = new Date().now();
 	// console.log(fecha);
@@ -118,7 +118,7 @@ function pasarVentaACancelacion(data){
 	// console.log(hour);
 
 	return new Promise((resolve,reject) => {
-		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '${zonaHoraria}' , '${hora}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${data[0].fecha}', '${zonaHoraria}' , '${ahora}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
