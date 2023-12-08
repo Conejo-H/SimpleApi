@@ -103,7 +103,7 @@ function pasarVentaACancelacion(data){
 	console.log(zonaHoraria);
 
 	var today = new Date();
-	var ahora = today.toLocaleString();
+	var ahora = today.toISOString();
 	console.log(ahora);
 	var hora = ahora.slice(11,19);
 	console.log(hora);
