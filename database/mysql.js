@@ -104,10 +104,10 @@ function pasarVentaACancelacion(data){
 
 	var today = new Date();
 	var ahora = today.toISOString();
-	ahora = ahora.substring(0,23);
+	// ahora = ahora.substring(0,23);
 	fecha = ahora.substring(0,10);
-	var hora = ahora.slice(11,19);
-	console.log(hora);
+	// var hora = ahora.slice(11,19);
+	// console.log(hora);
 	// var fecha = new Date().now();
 	// console.log(fecha);
 	// var fechaCadena = fecha.toString;
