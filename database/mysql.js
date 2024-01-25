@@ -69,7 +69,7 @@ function getUsers(){
 //Consultamos todas las transacciones de la base de datos
 function getTransactions(){
 	return new Promise((resolve,reject) => {
-		connection.query( `SELECT folio as idTransaccion, total as precio, SUBSTRING(fecha, 1, 10) as fecha, tipopago, estacion  AS mostrador, sucursal as tienda, cajero as vendedor, estatus FROM detventas; `, (error, result) =>{
+		connection.query( `SELECT folio as idTransaccion, total as precio, SUBSTRING(fecha, 1, 10) as fecha, tipopago, estacion  AS mostrador, sucursal as tienda, cajero as vendedor, estatus FROM detventas WHERE tipopago = 'efectivo'; `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 		})
